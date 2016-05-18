@@ -1,18 +1,18 @@
 [
-    {
-        "author": "Pete Hunt",
-        "text": "This is one comment [百度(http://www.baidu.com)"
-    },
-    {
-        "author": "Jordan Walke",
-        "text": "This is *another* comment"
-    },
-    {
-        "author": "Zhuangsd",
-        "text": "[Google(http://www.Google.com)"
-    },
-    {
-        "author": "Dengxy",
-        "text": "Dengxiaoyu"
-    }
+  {
+    "author": "Pete Hunt",
+    "text": "This is one comment [百度(http://www.baidu.com)"
+  },
+  {
+    "author": "Jordan Walke",
+    "text": "This is *another* comment"
+  },
+  {
+    "author": "Zhuangsd",
+    "text": "[Google(http://www.Google.com)"
+  },
+  {
+    "author": "Dengxy",
+    "text": "Dengxiaoyu"
+  }
 ]

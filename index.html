@@ -15,12 +15,16 @@
       e.preventDefault();
       var author = this.refs.author.value.trim();
       var text = this.refs.text.value.trim();
-      if (!text || !author) {
+      var reamrk = this.refs.reamrk.value.trim();
+      if (!text || !author || !reamrk) {
         return;
       }
       // TODO: send request to the server
+
+      this.props.onCommentSubmit({author:author,text:text});
       this.refs.author.value = '';
       this.refs.text.value = '';
+      this.refs.reamrk.value="wonder4";
       return;
   },
   render: function() {
@@ -28,6 +32,7 @@
       <form className="commentForm" onSubmit={this.handleSubmit}>
         <input type="text" placeholder="Your name" ref="author" />
         <input type="text" placeholder="Say something..." ref="text" />
+        <input type="text" placeholder="Reamrk" ref="reamrk"/>
         <input type="submit" value="Post" />
       </form>
     );
@@ -52,6 +57,21 @@
           }.bind(this)
         });
       },
+      handleCommentSubmit:function(comment){
+        // TODO:
+        $.ajax({
+         url: this.props.url,
+         dataType: 'json',
+         type: 'POST',
+         data: comment,
+         success: function(data) {
+           this.setState({data: data});
+         }.bind(this),
+         error: function(xhr, status, err) {
+           console.error(this.props.url, status, err.toString());
+         }.bind(this)
+       });
+      },
       getInitialState: function() {
         return {data: []};
       },
@@ -64,7 +84,7 @@
         <div className="commentBox">
          <h1>There are CommentLists</h1>
          <CommentList data={this.state.data}/>
-         <CommentForm />
+         <CommentForm onCommentSubmit={this.handleCommentSubmit}/>
         </div>
          );
     }
@@ -109,7 +129,7 @@
   {author: "Jordan Walke", text: "This is *another* comment"}
   ];
   ReactDOM.render(
-    <CommentBox url="services/db.json" pollInterval={2000}/>,
+    <CommentBox url="services/service.php?opr=getData" pollInterval={2000}/>,
     document.getElementById('content')
   );
     </script>
