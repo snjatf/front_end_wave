@@ -1,4 +1,15 @@
-ReactDOM.render(
-        <h1>Hello, world!</h1>,
-        document.getElementById('example')
-      );
+function testobj() {
+  var obj={
+    name:"zhuangsd",
+    sex:"男",
+    tasks:{
+      taskid:1,
+      taskname:"任务一"
+    },
+  };
+  
+  return obj;
+}
+// InitConf();
+
+

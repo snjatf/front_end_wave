@@ -1,137 +1,30 @@
 <html>
-    <meta charset="utf-8">
-    <head>
-    <script src="lib/reactjs/react.min.js"></script>
-    <script src="lib/reactjs/react-dom.min.js"></script>
-    <script src="lib/reactjs/browser.min.js"></script>
-    <script src="lib/jquery/jquery.min.js"></script>
-    <script src="lib/Common/marked.min.js"></script>
-    </head>
-    <body>
+<meta charset="utf-8">
+<head>
+  <script src="lib/reactjs/react.min.js"></script>
+  <script src="lib/reactjs/react-dom.min.js"></script>
+  <script src="lib/reactjs/browser.min.js"></script>
+  <script src="lib/jquery/jquery.min.js"></script>
+  <script src="lib/Common/marked.min.js"></script>
+
+  <!-- 新 Bootstrap 核心 CSS 文件 -->
+  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+  <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+  <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <!--test-->
+  <script type="text/javascript" src="script/demo4reactjs/demo.js"></script>
+
+  <script src="script/index.js" type="text/babel"></script>
+</head>
+
+<body>
+  <div class="container">
     <div id="content"></div>
-    <script type="text/babel">
-  var CommentForm = React.createClass({
-    handleSubmit: function(e) {
-      e.preventDefault();
-      var author = this.refs.author.value.trim();
-      var text = this.refs.text.value.trim();
-      var reamrk = this.refs.reamrk.value.trim();
-      if (!text || !author || !reamrk) {
-        return;
-      }
-      // TODO: send request to the server
+  </div>
+</body>
 
-      this.props.onCommentSubmit({author:author,text:text});
-      this.refs.author.value = '';
-      this.refs.text.value = '';
-      this.refs.reamrk.value="wonder4";
-      return;
-  },
-  render: function() {
-    return (
-      <form className="commentForm" onSubmit={this.handleSubmit}>
-        <input type="text" placeholder="Your name" ref="author" />
-        <input type="text" placeholder="Say something..." ref="text" />
-        <input type="text" placeholder="Reamrk" ref="reamrk"/>
-        <input type="submit" value="Post" />
-      </form>
-    );
-  }
-  });
-
-  var CommentBox =React.createClass({
-    getInitialState:function(){
-      return {data:[]};
-    },
-    loadCommentsFromServer: function() {
-        $.ajax({
-          url: this.props.url,
-          dataType: 'json',
-          cache: false,
-          success: function(data) {
-            this.setState({data: data});
-          }.bind(this),
-          error: function(xhr, status, err) {
-            console.error(this.props.url, status, err.toString());
-            // console.info(this.props.url + status);
-          }.bind(this)
-        });
-      },
-      handleCommentSubmit:function(comment){
-        // TODO:
-        $.ajax({
-         url: this.props.url,
-         dataType: 'json',
-         type: 'POST',
-         data: comment,
-         success: function(data) {
-           this.setState({data: data});
-         }.bind(this),
-         error: function(xhr, status, err) {
-           console.error(this.props.url, status, err.toString());
-         }.bind(this)
-       });
-      },
-      getInitialState: function() {
-        return {data: []};
-      },
-      componentDidMount: function() {
-        this.loadCommentsFromServer();
-        setInterval(this.loadCommentsFromServer, this.props.pollInterval);
-      },
-    render:function(){
-      return (
-        <div className="commentBox">
-         <h1>There are CommentLists</h1>
-         <CommentList data={this.state.data}/>
-         <CommentForm onCommentSubmit={this.handleCommentSubmit}/>
-        </div>
-         );
-    }
-  });
-
-  var Comment=React.createClass({
-    rawMarkup: function() {
-    var rawMarkup = marked(this.props.children.toString(), {sanitize: true});
-    return { __html: rawMarkup };
-  },
-    render:function(){
-    return (
-      <div className="comment">
-              <h2 className="commentAuthor">
-                {this.props.author}
-              </h2>
-                <span dangerouslySetInnerHTML={this.rawMarkup()} />
-            </div>
-    );
-    }
-  });
-
-  var CommentList = React.createClass({
-    render: function() {
-      var commentNodes = this.props.data.map(function (comment) {
-      return (
-        <Comment author={comment.author}>
-          {comment.text}
-        </Comment>
-      );
-    });
-    return (
-      <div className="commentList">
-        {commentNodes}
-      </div>
-    );
-  }
-  });
-
-  var data = [
-  {author: "Pete Hunt", text: "This is one comment [百度一下](http://www.baidu.com)"},
-  {author: "Jordan Walke", text: "This is *another* comment"}
-  ];
-  ReactDOM.render(
-    <CommentBox url="services/service.php?opr=getData" pollInterval={2000}/>,
-    document.getElementById('content')
-  );
-    </script>
-    </body>
 </html>

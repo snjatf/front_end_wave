@@ -1,5 +1,5 @@
 <?php
-
+include (dirname(__FILE__)."/Helper/DBHelper.php");
 $oprType=$_REQUEST['opr'];
 $data='[
   {
@@ -20,15 +20,22 @@ $data='[
   }
 ]';
 
+
 $data=json_decode($data, true);
 // var_dump($data);
 switch ($oprType) {
   case 'getData':
-   echo json_encode($data);
-    break;
+   echo getComments();
+  break;
+  case 'getTask':
+   echo getTask();
+  break;
     case 'addData':
     // print_r($data);
-    var_dump(commitComment(null));
+    $comment=array('author' =>$_REQUEST['author'] ,
+                      'text'=>$_REQUEST['text'],
+                       );
+    echo commitComment($comment);
       break;
   default:
     # code...
@@ -37,11 +44,24 @@ switch ($oprType) {
 
 function commitComment($comment)
 {
-  // array("author"=>"庄少东","text"=>"庄少东新增的文件！")
-  $array=array("author"=>"庄少东","text"=>"庄少东新增的文件！");
-  array_push($data,$array);
-  // $data[]=;
-  return $data;
+  $insertStr="insert into story(story_name,remark) values('".$comment['author']."','".$comment['text']."')";
+  if (DBHelper::Insert($insertStr)==1) {
+    return getComments();
+  }
 }
 // print_r($data);
+
+
+
+function getComments($filter='')
+{
+  $queryStr='SELECT id,story_name as author,remark as text from story'.(($filter=='')?'':' where '.$filter);
+  return json_encode(DBHelper::Query($queryStr));
+}
+
+function getTask()
+{
+  $queryStr='SELECT id task_id,story_name as task_name,remark as type from story';
+  return json_encode(DBHelper::Query($queryStr));
+}
  ?>
