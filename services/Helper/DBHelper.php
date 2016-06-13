@@ -3,7 +3,7 @@ class DBHelper{
     private static $server_name='localhost';
     private static $username='root';
     private static  $password='';
-    private static $database='db4scrum';
+    private static $database='news';
     
     public function getConnect()
     {

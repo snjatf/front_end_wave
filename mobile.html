@@ -1,0 +1,58 @@
+<html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"
+/>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="format-detection" content="telephone=no" />
+
+<head>
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="script/TouchSwipe.min.js"></script>
+    <style type="text/css">
+        .touch {
+            width: 90%;
+            height: 320px;
+            border: 1px solid #d1d1d1;
+            font-size: 1.5em;
+            color: #fff;
+            position:absolute;
+            margin: 15px 4%;
+        }
+    </style>
+    <script type="text/javascript">
+     $(function(){
+       $("div.touch").swipe( {
+                //Generic swipe handler for all directions
+          swipe:function(event, direction, distance, duration, fingerCount, fingerData) {  
+              //滑动距离小于50px则不处理
+              if(distance<50)
+              {
+                return false;
+              }
+              //获取需要显示的卡片
+              var showCard=$(this).prev();
+              if(direction=="left")
+              {
+                  showCard=$(this).next();
+              }    
+              if(showCard.length==0)
+              {
+                  return false;
+              }  
+            showCard.show();
+            
+             $(this).text("You swiped " + direction +" distance :"+distance +" fingerCount "+fingerCount);  
+             $(this).hide();
+            }
+         });
+      });
+    </script>
+</head>
+
+<body>
+    <div class="touch" style="background-color:red;">Touch first...</div>
+    <div class="touch" style="background-color:gray;display:none">Touch seconed...</div>
+    <div class="touch" style="background-color:blue;display:none">Touch third...</div>
+</body>
+
+</html>
